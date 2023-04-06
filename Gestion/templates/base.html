@@ -1,0 +1,308 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+    <!--DataTables-->
+    <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <!--Toast-->
+    <link rel="stylesheet" href="{% static 'assets/css/lightbox.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+    </script>
+
+    <title>YouTrip</title>
+
+
+    <!-- Additional CSS Files -->
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-hexashop.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/owl-carousel.css' %}">
+<!--
+
+TemplateMo 571 Hexashop
+
+https://templatemo.com/tm-571-hexashop
+
+-->
+    </head>
+    
+    <body>
+    
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>  
+    <!-- ***** Preloader End ***** -->
+    
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="{% url 'home' %}" class="logo">
+                            <img src="{% static 'assets/images/logo_blanco-YT.png' %}" style="width: 250px; height: auto;">
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Inicio</a></li>
+                            <li class="submenu">
+                                <a href="javascript:;" class="{% if request.path == '/misviajes/' or request.path == '/amigos/' or request.path == '/recomendadorDestinos/'  %}active{% endif %}">Conoce
+                                    {% if viajes_no_aceptados or solicitudes_no_resueltas %}
+                                    <i class="fa fa-bell-o" aria-hidden="true" style="color:rgb(213, 53, 0)"></i>
+                                      {% endif %}
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'viajestab' %}">
+                                            <i class="fa fa-plane"></i> Mis viajes
+                                            {% if viajes_no_aceptados %}
+                                            <i class="fa fa-bell-o" aria-hidden="true" style="color:rgb(213, 53, 0)"></i>
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'seguidos' %}">
+                                            <i class="fa fa-users"></i> Amigos
+                                            {% if solicitudes_no_resueltas %}
+                                            <i class="fa fa-bell-o" aria-hidden="true" style="color:rgb(213, 53, 0)"></i>
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                    <li> 
+                                        <a href="{% url 'recomendadorDestinos' %}"><i class="fa fa-cogs"></i> Descubre tu destino</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="submenu">
+                                <a href="{% url 'perfil' %}" class="{% if request.path == '/perfil/' %}active{% endif %}">
+                                    <i class="fa fa-user"></i> Perfil</a>
+                                    <ul>
+                                        <li><a href="{% url 'exit' %}"><i class="fa fa-sign-out"></i> Cerrar sesión</a></li>
+                                    </ul>
+                            </li>
+                        </ul>        
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!--messages-->
+        {% for message in messages %}
+        <div class="container-fluid p-0 youtrip-message" style="position: absolute;">
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="True">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+        </div>
+        {% endfor %}
+        <!--end messages-->
+
+        <!--Toast-->
+        {% for toast in toasts %}
+        <div class="toast-container
+                position-absolute end-0">
+        <div class="toast alert alert-dismissible" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="True">&times;</span>
+                        </button>
+                        {{toast.mensaje_cabecera}}
+                    </div>
+                <div class="toast-body">
+                {{toast.mensaje_detalle}}
+                </div>
+        </div>
+        </div>
+        {% endfor %}
+    <!-- end Toast-->
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    
+
+    
+    
+   <!--Contenido cambiante del sitio-->
+   {% block content %}
+
+   {% endblock %}
+
+   
+    
+    <!-- ***** Footer Start ***** -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="first-item">
+                        <div class="logo">
+                            <img src="{% static 'assets/images/white-logo.png' %}" alt="hexashop ecommerce templatemo">
+                        </div>
+                        <ul>
+                            <li><a href="#">16501 Collins Ave, Sunny Isles Beach, FL 33160, United States</a></li>
+                            <li><a href="#">hexashop@company.com</a></li>
+                            <li><a href="#">010-020-0340</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Shopping &amp; Categories</h4>
+                    <ul>
+                        <li><a href="#">Men’s Shopping</a></li>
+                        <li><a href="#">Women’s Shopping</a></li>
+                        <li><a href="#">Kid's Shopping</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="#">Homepage</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Help &amp; Information</h4>
+                    <ul>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">FAQ's</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Tracking ID</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-12">
+                    <div class="under-footer">
+                        <p>Copyright © 2022 HexaShop Co., Ltd. All Rights Reserved. 
+                        
+                        <br>Design: <a href="https://templatemo.com" target="_parent" title="free css templates">TemplateMo</a>
+
+                        <br>Distributed By: <a href="https://themewagon.com" target="_blank" title="free & premium responsive templates">ThemeWagon</a></p>
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+
+    <!-- jQuery -->
+    <script src="{% static 'assets/js/jquery-2.1.0.min.js' %}"></script>
+
+    <!-- Bootstrap -->
+    <script src="{% static 'assets/js/popper.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+    <!-- Plugins -->
+    <script src="{% static 'assets/js/owl-carousel.js' %}"></script>
+    <script src="{% static 'assets/js/accordions.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker.js' %}"></script>
+    <script src="{% static 'assets/js/scrollreveal.min.js' %}"></script>
+    <script src="{% static 'assets/js/waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'assets/js/imgfix.min.js' %}"></script> 
+    <script src="{% static 'assets/js/slick.js' %}"></script> 
+    <script src="{% static 'assets/js/lightbox.js' %}"></script> 
+    <script src="{% static 'assets/js/isotope.js' %}"></script> 
+    
+    <!-- Global Init -->
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+
+    <!--DataTables-->
+    <script src="http://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <script>
+
+        $(function() {
+            var selectedClass = "";
+            $("p").click(function(){
+            selectedClass = $(this).attr("data-rel");
+            $("#portfolio").fadeTo(50, 0.1);
+                $("#portfolio div").not("."+selectedClass).fadeOut();
+            setTimeout(function() {
+              $("."+selectedClass).fadeIn();
+              $("#portfolio").fadeTo(50, 1);
+            }, 500);
+                
+            });
+        });
+
+        $(".youtrip-message").show("slow").delay(3000).hide("slow");
+
+        // modal script
+        function abrir_modal_edicion(url){
+            $('#edicion').load(url, function(){
+                $(this).modal('show')
+            })
+        }
+
+        // buscador de amigos
+        function abrir_buscar_amigos(url){
+            $('#buscaramigos').load(url, function(){
+                $(this).modal('show')
+            })
+        }
+
+        // buscador de amigos
+        function abrir_gestionar_viajes(url){
+            $('#viajeaceptar').load(url, function(){
+                $(this).modal('show')
+            })
+        }
+
+        // buscador de amigos
+        function abrir_agregar_amigos(url){
+            $('#SeguirUsuarios').load(url, function(){
+                $(this).modal('show')
+            })
+        }
+        
+        $(".toast").toast({ delay: 3000 });
+        $('.toast').toast('show');
+
+       
+    </script>
+
+  </body>
+</html>

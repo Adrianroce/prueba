@@ -1,0 +1,44 @@
+{% load my_filters %}
+ <!-- Modal -->
+ <form action="{% url 'modificarViaje' %}" method="post">
+    {% csrf_token %}
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modificando viaje a {{viaje_modificar.destino.nombre}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+                    <div class="form-group mb-3">
+                        <label class="label" for="name">Descripcion</label>
+                        <input type="text" name="descripcion" class="form-control" placeholder="Descripcion" value = "{{viaje_modificar.descripcion}}" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="label" for="name">Presupuesto (por pers.)</label>
+                        <input type="number" name="presupuesto" class="form-control" step="0.01" value = "{{viaje_modificar.presupuesto|tostrDecimal}}" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="label" for="name">Fecha inicio</label>
+                        <input type="date" name="fecha_inicio" class="form-control" value = "{{viaje_modificar.fecha_inicio|date:'Y-m-d'}}" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="label" for="name">Fecha fin</label>
+                        <input type="date" name="fecha_fin" class="form-control" value = "{{viaje_modificar.fecha_fin|date:'Y-m-d'}}" required>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <input type="hidden" name="destino" class="form-control" value="{{viaje_modificar.destino.ciudad_id}}">
+                    </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Eliminar</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary">Guardar y crear</button>
+        </div>
+      </div>
+    </div>
+</form>

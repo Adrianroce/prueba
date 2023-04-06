@@ -1,0 +1,52 @@
+{% extends 'amigos.html' %}
+
+{% load static %}
+
+{% load my_filters %}
+
+{% block tabs %}
+<section class="section">
+    {% for sol in solicitudes_amistad_pend %}
+    <div class="list-group">
+      <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between ">
+                  {% if sol.img_profile is not None %}
+                      <img class="rounded-circle" width="60px" height="60px" src="{{sol.img_profile.img.url}}">
+                  {% else %}
+                      <img class="rounded-circle" width="60px" height="60px" src="{% static 'assets/images/Barcelona.jpg' %}"> 
+                  {% endif %}
+
+                  <h5 class="mb-1">{{sol.username}}</h5>
+
+                  <div>
+                    <a class="btn btn-success" href="{% url 'amigosAceptar' amigo_id=sol.usuario_id %}"><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                    </a>
+                    <a class="btn btn-danger" href="{% url 'amigosRechazar' amigo_id=sol.usuario_id %}"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </a>
+                  </div>
+        </div>
+      </div>
+      
+    </div>
+      {% endfor %}
+</section>
+
+
+{% endblock %}
+
+<!--<div>
+                    <div class="d-flex w-100 justify-content-between ">
+                      <div class="stats"  style="margin-right: 10px;">
+                        <h6 class="mb-0">Seguidos</h6>
+                        <span>{{sol.seguidos}}</span>
+    
+                      </div>
+    
+                      
+                      <div class="stats">
+                        <h6 class="mb-0">Seguidores</h6>
+                        <span>{{sol.seguidores}}</span>
+    
+                      </div>
+                    </div>
+                  </div>-->

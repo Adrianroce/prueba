@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load my_filters %}
+
+{% block content %}
+<!-- ***** Main Banner Area Start ***** -->
+<div class="page-heading" id="top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="inner-content">
+                    <h2>Perfil</h2>
+                    <span>Awesome &amp; Creative HTML CSS layout by TemplateMo</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ***** Main Banner Area End ***** -->
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px" height="150px" src="{% if img_profile is not None %}{{img_profile.img.url}}{% else %}https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg{% endif %}">
+                <span class="font-weight-bold">{{user.username}}</span>
+                <span class="text-black-50">{{user.email}}</span><span> </span></div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Username</label>: <strong>{% if user.username is not None and user.username != '' %}{{user.username}}{% else %}No indicado{% endif %}</strong></div>
+                    <div class="col-md-6"><label class="labels">Email</label>: <strong>{% if user.email is not None and user.email != '' %}{{user.email}}{% else %}No indicado{% endif %}</strong></div>
+                </div>
+                <div class="mt-5 text-center">
+                    <a href="{% url 'modificarPerfil' %}">
+                        <button class="btn btn-primary profile-button" type="button">Modificar perfil</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience"><span>Conexiones</span></div><br>
+                <div class="col-md-12"><label class="labels">Fecha creación: </label><br><strong>{% if user.date_joined is not None and user.date_joined != '' %}{{user.date_joined}}{% else %}No indicado{% endif %}</strong></div> <br>
+                <div class="col-md-12"><label class="labels">Último acceso: </label><br><strong>{% if user.last_login is not None and user.last_login != '' %}{{user.last_login}}{% else %}No indicado{% endif %}</strong></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock %}

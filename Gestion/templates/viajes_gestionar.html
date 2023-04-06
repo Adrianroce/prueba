@@ -1,0 +1,47 @@
+{% extends 'mis_viajes.html' %}
+
+{% load static %}
+
+{% load my_filters %}
+
+{% block tabs %}
+ <!-- Modal -->
+ <section class="section">
+  {% if viajes_no_aceptados %}
+    {% for viaje in viajes_no_aceptados %}
+    <div class="list-group">
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{viaje.destino.nombre}}:  {{viaje.descripcion}}</h5>
+            <small>{{viaje.tiempo_restante}} dias restantes</small>
+          </div>
+          <p class="mb-1"> {{viaje.fecha_inicio}} - {{viaje.fecha_fin}}</p>
+          <div class="d-flex w-100 justify-content-between ">
+            <div class="align-text-bottom" height="30px">
+                {% for integrante in viaje.viajeros %}
+                    {% if integrante.usuario.img_profile is not None %}
+                        <img class="rounded-circle" width="30px" height="30px" src="{{integrante.usuario.img_profile.img.url}}">
+                    {% else %}
+                        <img class="rounded-circle" width="30px" height="30px" src="{% static 'assets/images/Barcelona.jpg' %}"> 
+                    {% endif %}
+                
+            
+                {% endfor %}
+            </div>
+            
+            <div>
+              <a class="btn btn-success" href="{% url 'viajesAceptar' viaje_id=viaje.viaje_id %}"><i class="fa fa-check-square-o" aria-hidden="true"></i>
+              </a>
+              <a class="btn btn-danger" href="{% url 'viajesRechazar' viaje_id=viaje.viaje_id %}"><i class="fa fa-trash-o" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      {% endfor %}
+      {% else %}
+      <h2>No hay viajes pendientes de aceptar</h2>
+      {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load my_filters %}
+
+{% block content %}
+
+    <!-- ***** Main Banner Area Start ***** -->
+    <div class="page-heading" id="top"></div>
+    <!-- ***** Main Banner Area End ***** -->
+
+
+    <!-- ***** Product Area Starts ***** -->
+    <section class="section" id="product">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                <div class="left-images">
+                    <img src="{{ciudad_destino.img.img.url}}" alt="">
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="right-content">
+                    <h4>{{ciudad_destino.nombre}}</h4>
+                    <ul class="stars">
+                        {% for i in ciudad_destino.media_valoracion|times %}
+                        <li><i class="fa fa-star"></i></li>
+                        {% endfor %}
+                    </ul>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod kon tempor incididunt ut labore.</span>
+                    <div class="quote">
+                        <i class="fa fa-quote-left"></i><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuski smod.</p>
+                    </div>
+                    <div class="quantity-content">
+                        <div class="total">
+                            <div class="left-content">
+                                <h6>Comienza!!!</h6>
+                            </div>
+                            <div class="right-content">
+                                <div class="quantity buttons_added">
+                                    <div class="main-border-button"><a data-toggle="modal" data-target="#exampleModalCenter">
+                                        Crear viaje
+                                    </a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Product Area Ends ***** -->
+
+    <!-- Modal -->
+<form action="{% url 'crearViaje' %}" method="post">
+    {% csrf_token %}
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Creando viaje a {{ciudad_destino.nombre}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+                    <div class="form-group mb-3">
+                        <label class="label" for="name">Descripcion</label>
+                        <input type="text" name="descripcion" class="form-control" placeholder="Descripcion" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="label" for="name">Presupuesto (por pers.)</label>
+                        <input type="number" name="presupuesto" step="0.01" class="form-control" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="label" for="name">Fecha inicio</label>
+                        <input type="date" name="fecha_inicio" class="form-control" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="label" for="name">Fecha fin</label>
+                        <input type="date" name="fecha_fin" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <input type="hidden" name="destino" class="form-control" value="{{ciudad_destino.ciudad_id}}">
+                    </div>
+
+                    
+            <h1>{{ciudad_destino.nombre}}</h1>
+
+            <p>aqui se configurara el viaje y se podra invitar amigos
+                se indicaran las fechas, presupuesto (todo lo indica el usuario)
+                al crear el viaje aparera en la pantalla viajes
+                    crear pantalla para aceptar viaje -- podriamos poner un icono de alerta si tienes viaje sin aceptar
+                    al pasar la fecha de fin de un viaje se podra valorar el destino turistico y esto actualizara la valoracion de los sitios
+                    podriamos RECOMENDAR VIAJANTES que son usuarios similares agrupados por una SOM</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary">Guardar y crear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+    
+    {% endblock %}

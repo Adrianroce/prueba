@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load my_filters %}
+
+{% block content %}
+
+    <!-- ***** Main Banner Area Start ***** -->
+    <div class="page-heading" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="inner-content">
+                        <h2>Check Our Products</h2>
+                        <span>Awesome &amp; Creative HTML CSS layout by TemplateMo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Main Banner Area End ***** -->
+    <section class="section" id="products">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-heading">
+                        <h2>Our Latest Products</h2>
+                        <span>Check out all of our products.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+
+                {% for ciudad in ciudades %}
+                <!--Un item-->
+                <div class="col-lg-4">
+                    <div class="item">
+                        <div class="thumb">
+                            <div class="hover-content">
+                                <ul>
+                                    <li>
+                                        <button title="Familia" style="background: transparent;border:none;outline: none;">
+                                            <i class="fa fa-child" 
+                                                {% if ciudad.familia <= 2 %} 
+                                                    style="color:red;"
+                                                {% elif ciudad.familia == 3 %} 
+                                                    style="color:yellow;"
+                                                {% else %}
+                                                    style="color:green;"
+                                                {% endif %}>
+                                            </i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button title="Pareja" style="background: transparent;border:none;outline: none;">
+                                            <i class="fa fa-heart" 
+                                                {% if ciudad.pareja <= 2 %} 
+                                                    style="color:red;"
+                                                {% elif ciudad.pareja == 3 %} 
+                                                    style="color:yellow;"
+                                                {% else %}
+                                                    style="color:green;"
+                                                {% endif %}>
+                                            </i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button title="Gastronomia" style="background: transparent;border:none;outline: none;">
+                                            <i class="fa fa-cutlery " 
+                                                {% if ciudad.gastronomia <= 2 %} 
+                                                    style="color:red;"
+                                                {% elif ciudad.gastronomia == 3 %} 
+                                                    style="color:yellow;"
+                                                {% else %}
+                                                    style="color:green;"
+                                                {% endif %}>
+                                            </i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button title="Alojamiento" style="background: transparent;border:none;outline: none;">
+                                            <i class="fa fa-bed" 
+                                                {% if ciudad.alojamiento <= 2 %} 
+                                                    style="color:red;"
+                                                {% elif ciudad.alojamiento == 3 %} 
+                                                    style="color:yellow;"
+                                                {% else %}
+                                                    style="color:green;"
+                                                {% endif %}>
+                                            </i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button title="Cultura" style="background: transparent;border:none;outline: none;">
+                                            <i class="fa fa-university" 
+                                                {% if ciudad.cultura <= 2 %} 
+                                                    style="color:red;"
+                                                {% elif ciudad.cultura == 3 %} 
+                                                    style="color:yellow;"
+                                                {% else %}
+                                                    style="color:green;"
+                                                {% endif %}>
+                                            </i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button title="Fiesta" style="background: transparent;border:none;outline: none;">
+                                            <i class="fa fa-glass" 
+                                                {% if ciudad.fiesta <= 2 %} 
+                                                    style="color:red;"
+                                                {% elif ciudad.fiesta == 3 %} 
+                                                    style="color:yellow;"
+                                                {% else %}
+                                                    style="color:green;"
+                                                {% endif %}>
+                                            </i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button title="Transporte" style="background: transparent;border:none;outline: none;">
+                                            <i class="fa fa-train" 
+                                                {% if ciudad.transporte <= 2 %} 
+                                                    style="color:red;"
+                                                {% elif ciudad.transporte == 3 %} 
+                                                    style="color:yellow;"
+                                                {% else %}
+                                                    style="color:green;"
+                                                {% endif %}>
+                                            </i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="hover-effect">
+                                <a href="{% url 'destinoDetalles' ciudad_id=ciudad.ciudad_id %}">
+                                {% if ciudad.img.img is not None %}
+                                    <img src="{{ ciudad.img.img.url }}" width="200px" height="300px" alt="">
+                                {% else %}
+                                    <img src="{% static 'assets/images/Barcelona.jpg' %}" width="200px" height="300px" alt="">
+                                 {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="down-content">
+                            <h4>{{ciudad.nombre}}</h4>
+                            <span>Valoracion: {{ciudad.media_valoracion}}/5</span>
+                            <ul class="stars">
+                                {% for i in ciudad.media_valoracion|times %}
+                                <li><i class="fa fa-star"></i></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- ***** Products Area Ends ***** -->
+    {% endblock %}

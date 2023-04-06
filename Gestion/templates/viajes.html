@@ -1,0 +1,46 @@
+{% extends 'mis_viajes.html' %}
+
+{% load static %}
+
+{% load my_filters %}
+
+{% block tabs %}
+<section class="section">
+    {% for viaje in viajes %}
+    <div class="list-group">
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{viaje.destino.nombre}}:  {{viaje.descripcion}}</h5>
+            <small>{{viaje.tiempo_restante}} dias restantes</small>
+          </div>
+          <p class="mb-1"> {{viaje.fecha_inicio}} - {{viaje.fecha_fin}}</p>
+          <div class="d-flex w-100 justify-content-between ">
+            <div class="align-text-bottom" height="30px">
+                {% if viaje.usuario_admin %}
+                <button class="btn btn-secondary" onclick="abrir_buscar_amigos('{% url 'amigosBuscar' viaje_id=viaje.viaje_id %}')"><i class="fa fa-plus-circle fa-2x" aria-hidden="true" ></i>
+                </button>
+                {% endif %}
+                {% for integrante in viaje.viajeros %}
+                    {% if integrante.usuario.img_profile is not None %}
+                        <img class="rounded-circle" width="30px" height="30px" src="{{integrante.usuario.img_profile.img.url}}">
+                    {% else %}
+                        <img class="rounded-circle" width="30px" height="30px" src="{% static 'assets/images/Barcelona.jpg' %}"> 
+                    {% endif %}
+                
+                    
+                {% endfor %}
+            </div>
+            
+            {% if viaje.usuario_admin %}
+            <button class="btn btn-primary" onclick="abrir_modal_edicion('{% url 'verViaje' viaje_id=viaje.viaje_id %}')"><i class="fa fa-pencil" aria-hidden="true"></i>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+        
+      </div>
+      {% endfor %}
+</section>
+
+
+{% endblock %}
