@@ -5,9 +5,25 @@ from Gestion.models import get_img_profile, UsuarioDto, Mensajes_Toast, Mensajes
 from Sesion.forms import ImageForm
 from Sesion.models import Image
 from django.contrib import messages
+#from Viaje.forms import ViajeForm, AnadirAmigosForm
+#from Viaje.models import Viaje, Viajero, ViajeDto
+#from Amigos.models import Relacion
 from django.contrib.auth.models import User
 from datetime import date
 
+# funciones
+def obtener_img_ciudad(ciudad_id):
+    return Ciudad_Image.objects.filter(ciudad=ciudad_id).first()
+
+# falta
+
+    
+
+def getContext(request):
+    ctx = {}
+    #falta
+
+    return ctx
 
 # funciones utiles
 def obtenerepocameses(me):
@@ -69,13 +85,206 @@ def importar_imagenes_folder():
 # vistas
 @login_required
 def home(request):
-    ctx = {}
-    #importar_imagenes_folder()
-    ciudades = Ciudad.objects.all()
-    imagenes = {}
-    ciudades_dto = []
-    # esto se puede mejorar haciendo una sola consulta en lugar de muchas
-    
-        
-    ctx['ciudades'] = ciudades_dto
+    ctx = getContext(request)
+    #falta
     return render(request, 'home.html', ctx)
+
+@login_required
+def perfil(request):
+    context = getContext(request)
+    if request.method == "POST":
+        pass
+    else:
+        img_profile = get_img_profile(request.user.id)
+        context["img_profile"] = img_profile
+    return render(request, 'perfil.html', context)
+
+@login_required
+def modificarPerfil(request):
+
+    context = getContext(request)
+    form = ImageForm(initial={'user': request.user.id, 'tipo':'Profile_Image'})
+    context['form'] = form
+
+    img_profile = get_img_profile(request.user.id)
+
+    context["img_profile"] = img_profile
+    
+    if request.method == "POST":
+        # actualizar info perfil
+
+        return redirect('perfil')
+    else:
+        pass
+        
+    return render(request, 'perfil_edit.html', context)
+
+@login_required
+def modificarImgPerfil(request):
+    context = getContext(request)
+    img_profile = None
+    if request.method == "POST":
+
+        form = ImageForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            img_profile = get_img_profile(request.user.id)
+            if img_profile is not None:
+                img_profile.img = form.cleaned_data["img"]
+                img_profile.save()
+            else:
+               form.save() 
+
+            messages.success(request, "Imagen cargada con exito")
+            return redirect('modificarPerfil')
+        else:
+            messages.error(request, "Error guardando imagen")
+    else:
+        img_profile = get_img_profile(request.user.id)
+
+    context["img_profile"] = img_profile
+    return render(request, 'perfil_edit.html', context)
+
+@login_required
+def misviajes(request):
+    ctx = getContext(request)
+
+    #falta
+
+    return render(request, 'viajes.html', ctx)
+
+@login_required
+def amigos(request):
+    ctx = getContext(request)
+    #falta
+    #sol_pendiente = obtener_solicitudes_amistad_pendientes(request.user)
+    #ctx["solicitudes_no_resueltas"] = sol_pendiente
+    return render(request, 'amigos.html', ctx)
+
+@login_required
+def destinoDetalles(request, ciudad_id):
+    ctx = getContext(request)
+
+    if request.method == "POST":
+        pass
+    else:
+        ciudad_destino = Ciudad.objects.filter(pk=ciudad_id).first()
+
+        img = obtener_img_ciudad(ciudad_destino.ciudad_id)
+
+        ctx["ciudad_destino"] = CiudadDto(ciudad_destino, img=img)
+
+        #form = ViajeForm(initial={'destino': ciudad_id})
+        #ctx['form'] = form
+    
+    return render(request, 'destino_detalle.html', ctx)
+
+
+
+@login_required
+def crearViaje(request):
+
+    ctx = getContext(request)
+
+    #falta
+
+@login_required 
+def verViaje(request, viaje_id):
+    ctx = getContext(request)
+    #falta
+    return render(request, 'viaje_edit_modal.html', ctx)
+
+@login_required 
+def modificarViaje(request):
+    ctx = getContext(request)
+
+    return render(request, 'viajes.html', ctx)
+
+@login_required
+def amigosBuscar(request, viaje_id):
+    ctx = getContext(request)
+
+    #falta
+    
+    return render(request, 'viaje_amigos_buscar.html', ctx)
+
+
+@login_required
+def viajesGestionar(request):
+    ctx = getContext(request)
+
+    #falta
+
+    return render(request, 'viajes_gestionar.html', ctx)
+
+@login_required
+def viajeAceptar(request, viaje_id):
+
+    #falta
+
+    return redirect('viajesGestionar')
+
+@login_required
+def viajeRechazar(request, viaje_id):
+    
+    #falta
+
+    return redirect('viajesGestionar')
+
+@login_required
+def seguidos(request):
+    ctx = getContext(request)
+    # obtengo los usuarios a los que sigue
+    #falta
+    
+    return render(request, 'seguidos.html', ctx)
+
+@login_required
+def seguidores(request):
+    ctx = getContext(request)
+    #falta
+    
+    return render(request, 'seguidores.html', ctx)
+
+@login_required
+def amigosSolicitudes(request):
+    ctx = getContext(request)
+    #falta
+    
+    return render(request, 'solicitudes_amistad_pend.html', ctx)
+
+@login_required
+def amigoAceptar(request, amigo_id):
+    
+
+    #falta
+
+    if 1 > 0: #falta
+        return redirect('amigosSolicitudes')
+    else:
+        return redirect('seguidores')
+
+@login_required
+def amigoRechazar(request, amigo_id):
+    
+   #falta
+
+    if 1 > 0:#falta
+        return redirect('amigosSolicitudes')
+    else:
+        return redirect('seguidores')
+    
+@login_required
+def amigosAgregar(request):
+    ctx = getContext(request)
+
+    #falta
+    
+    return render(request, 'amigos_buscador.html', ctx)
+
+@login_required
+def SeguirUsuarios(request):
+    context = getContext(request)
+    #falta
+    
+    return redirect('seguidos')

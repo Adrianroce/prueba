@@ -1,0 +1,44 @@
+{% load my_filters %}
+ <!-- Modal -->
+ <form action="{% url 'anadirAmigoViaje' %}" method="post">
+    {% csrf_token %}
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Buscador de usuarios</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table" id="TablaBuscarUsuarios">
+            <thead>
+              <tr>
+                <th scope="col">Nombre de usuario</th>
+                <th scope="col">Seguir</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for usuario in usuarios %}
+              <tr>
+                <td>{{usuario.username}}</td>
+                <td><input name="checks" type="checkbox" value="{{usuario.id}}"></td>
+              
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+              <input type="hidden" name="viaje" class="form-control" value="{{viaje_id}}">
+              
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Guardar y crear</button>
+        </div>
+      </div>
+    </div>
+</form>
+
+<!--DataTables-->
+<script type="text/javascript">$('#TablaBuscarUsuarios').DataTable();</script>

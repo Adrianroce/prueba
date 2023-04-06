@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load my_filters %}
+
+{% block content %}
+<!-- ***** Main Banner Area Start ***** -->
+<div class="page-heading" id="top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="inner-content">
+                    <h2>Check Our Products</h2>
+                    <span>Awesome &amp; Creative HTML CSS layout by TemplateMo</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link {% if request.path == '/viajes/' %}active{% endif %}" style="color:{% if request.path == '/viajes/' %}#e3b04b{% else %}black{% endif %};" aria-current="page" href="{% url 'viajestab' %}">Mis viajes</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if request.path == '/viajesGestionar/' %}active{% endif %}" style="color:{% if request.path == '/viajesGestionar/' %}#e3b04b{% else %}black{% endif %};" href="{% url 'viajesGestionar' %}">Solicitudes{% if viajes_no_aceptados %}
+        <i class="fa fa-bell-o" aria-hidden="true" style="color:rgb(213, 53, 0)"></i>
+          {% endif %}</a>
+       
+    </li>
+  </ul>
+
+<!-- ***** Main Banner Area End ***** -->
+{% block tabs %}
+{% endblock %}
+
+
+<div class="modal fade" id="edicion" role="dialog">
+
+</div>
+
+<div class="modal fade" id="buscaramigos" role="dialog">
+
+</div>
+
+<div class="modal fade" id="viajeaceptar" role="dialog">
+
+</div>
+
+
+{% endblock %}
